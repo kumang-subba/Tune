@@ -20,7 +20,7 @@ const debounceSearchResults = function(){
             timer = setTimeout(async ()=>{
                 try {
                     const spotifyAccessToken = await getSpotifyAccessToken()
-                    data = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track,artist&limit=5&access_token=${spotifyAccessToken}`).then(res => res.json())
+                    let data = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track,artist&limit=5&access_token=${spotifyAccessToken}`).then(res => res.json())
                     resolve(data)
                 } catch (error) {
                     reject(error)
