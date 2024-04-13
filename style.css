@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Kanit", sans-serif;
+}
+
+a{
+    all: unset;
+    cursor: pointer;
+}
+
+header{
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    width: 20%;
+    position: fixed;
+    height: 100vh;
+}
+
+nav{
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+a h3{
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+h1{
+    letter-spacing: 5px;
+    font-size: 3.8rem;
+}
+
+h2{
+    letter-spacing: 2px;
+    font-size: 1.8rem;
+}
+
+main{
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin-left: 20%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.title{
+    margin-left: 20px;
+}
+.subtitle{
+    margin-left: 20px;
+    font-style: italic;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tracks{
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 20px;
+}
+
+@keyframes cards {
+    from {
+        scale: 0;
+    }
+    to{
+        scale: 100%;
+    }
+}
+
+.tracks div{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 30%;
+    transition: transform 0.5s;
+    cursor: pointer;
+    height: 100%;
+    transform-origin: center;
+    animation: cards 0.3s ease-in;
+
+    &:hover{
+        transform: scale(1.05);
+    }
+}
+
+.cardInfo{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.cardImage{
+    width: 400px;
+}
+
+.cardImage img{
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.detailSection{
+    display: flex;
+    margin-top: 10px;
+}
+
+.detailPicture{
+    height: 100%;
+    width: 50%;
+}
+.detailPicture img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detailInfo{
+    width: 50%;
+    margin: 0px 20px;
+}
+
+.detailInfo h4{
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+}
+
+.tags{
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+}
+.tags span{
+    background-color: #8f8e8e;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 10px;
+}
+
+.icon{
+    height: 40px;
+    cursor: pointer;
+}
+
+.others{
+    margin: 10px 0;
+}
+
+.listOfOthers{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.listOfOthers a{
+    cursor: pointer;
+    width: 18%;
+}
+
+.smallPicture{
+    height: 120px;
+    width: 100%;
+    display: inline-block;
+}
+
+.smallPicture img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.listOfOthers p{
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.searchContainer{
+    margin: 20px 0;
+    width: 80%;
+    border-radius: 5px;
+}
+.searchContainer input{
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+.search-results{
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding: 5px;
+    border-radius: 0 0 5px 5px;
+}
+
+.result{
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    font-size: 1rem;
+    gap: 2px;
+    &:not(:last-child){
+        border-bottom: 1px solid black;
+        margin-bottom: 2px;
+    }
+    &:last-child{
+        border-radius: 0 0 5px 5px;
+    }
+    &:hover{
+        background-color: #e6e6e6;
+    }
+}
+
+
+.result-picture {
+    width: 20%;
+    height: 50px;
+}
+.result-picture img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.result-text p:first-child{
+    font-weight: 500;
+    font-size: 1rem;
+}
+.result-text p:nth-child(2){
+    font-size: 0.8rem;
+    color: #8f8e8e;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 25px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid;
+  border-color: #000 #0000;
+  animation: l1 1s infinite;
+  margin-left: auto;
+  margin-right: auto;
+}
+@keyframes l1 {to{transform: rotate(.5turn)}}
