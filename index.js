@@ -1,6 +1,4 @@
-const API_key= process.env.API_KEY
-const CLIENT_ID = process.env.CLIENT_ID
-const CLIENT_SECRET = process.env.CLIENT_SECRET
+import { API_key, CLIENT_ID, CLIENT_SECRET } from "./config.js"
 
 const dataDiv = document.getElementById("data")
 const title = document.getElementById("title")
