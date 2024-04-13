@@ -516,7 +516,7 @@ async function renderTopTracks(){
 // Function to create generator to get fetched request in iteration
 const artistsGen = (arr) => async function*(){
     const spotifyAccessToken = await getSpotifyAccessToken()
-    for (i=0;i<arr.length;i++){
+    for (let i=0;i<arr.length;i++){
         const response = await fetch(`https://api.spotify.com/v1/search?type=artist&q=${arr[i]}&decorate_restrictions=false&include_external=audio&limit=1&access_token=${spotifyAccessToken}`)
         const data = await response.json()
 
