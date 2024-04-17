@@ -19,6 +19,8 @@ const path = require('path');
 
 const app = express();
 
+app.use("/",express.static(path.resolve(__dirname,"..","frontend")))
+
 app.all("*", (req, res) => {
     res.sendFile(path.resolve(__dirname,"..","frontend/index.html"))
 })

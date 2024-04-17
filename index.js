@@ -6,10 +6,6 @@ const subTitle = document.getElementById("sub-title")
 const search = document.getElementById("search") 
 const searchResultsContainer = document.getElementById("search-results")
 
-let searchLoader = false
-
-searchResultsContainer.style.display = "none"
-
 const debounceSearchResults = function(){
     let timer;
     return (query)=>{
@@ -186,9 +182,13 @@ async function getTopArtists(){
 }
 
 async function getTrackDetails(artist,track){
-    const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${API_key}&artist=${artist}&track=${track}&format=json`)
-    const data = await response.json()
-    return data
+    try {
+        const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${API_key}&artist=${artist}&track=${track}&format=json`)
+        const data = await response.json()
+        return data
+    } catch (error) {
+        throw error    
+    }
 }
 
 async function getArtistDetails(artist){
@@ -252,15 +252,31 @@ window.addEventListener('DOMContentLoaded', () => {
 // Event listener for back and forward buttons
 window.addEventListener('popstate', router)
 
+function pageNotFound(){
+    title.textContent = "ERROR 404: PAGE NOT FOUND"
+
+    let homeLink = document.createElement("a")
+    homeLink.setAttribute("href","/")
+    homeLink.setAttribute("data-link","")
+    homeLink.textContent = "Go Home"
+
+    subTitle.append(homeLink)
+}
+
 // Function to render artist details
 async function renderArtistDetails(){
-    const artistName = new URLSearchParams(location.search).get("name").split("_").join(" ") 
+    const artistParam = new URLSearchParams(location.search).get("name").split("_").join(" ") 
 
-    title.textContent = artistName
-
+    
     const spotifyAccessToken = await getSpotifyAccessToken()
-    const [fetchedArtistDetails,responseSpotify] = await Promise.all([getArtistDetails(artistName),fetch(`https://api.spotify.com/v1/search?type=artist&q=${artistName}&decorate_restrictions=false&include_external=audio&limit=1&access_token=${spotifyAccessToken}`)])
+    const [fetchedArtistDetails,responseSpotify] = await Promise.all([getArtistDetails(artistParam),fetch(`https://api.spotify.com/v1/search?type=artist&q=${artistParam}&decorate_restrictions=false&include_external=audio&limit=1&access_token=${spotifyAccessToken}`)])
     const dataSpotify = await responseSpotify.json()
+    
+    console.log(fetchedArtistDetails,dataSpotify)
+    if (dataSpotify.artists.items[0].name !== artistParam){
+        return pageNotFound()
+    }
+    title.textContent = artistParam
 
     const detailSection = document.createElement("section")
     detailSection.setAttribute("class","detailSection")
@@ -356,6 +372,13 @@ async function renderTrackDetails(){
     const trackName = new URLSearchParams(location.search).get("name").split("_").join(" ")
     const artistName = new URLSearchParams(location.search).get("artist").split("_").join(" ") 
 
+    const spotifyAccessToken = await getSpotifyAccessToken()
+    const [fetchTrackDetails,dataSpotify] = await Promise.all([getTrackDetails(artistName,trackName),fetch(`https://api.spotify.com/v1/search?type=track&q=${trackName}&artist=${artistName}&decorate_restrictions=false&best_match=true&include_external=audio&limit=1&access_token=${spotifyAccessToken}`).then(res=>res.json())])
+
+    if (fetchTrackDetails.error){
+        return pageNotFound()
+    }
+
     title.textContent = trackName
 
     const bySpan = document.createElement("span")
@@ -365,9 +388,6 @@ async function renderTrackDetails(){
     artist.setAttribute("href",`./artist?name=${artistName.split(" ").join("_")}`)
     artist.style.textDecoration = "underline"
     subTitle.append(bySpan,artist)
-
-    const spotifyAccessToken = await getSpotifyAccessToken()
-    const [fetchTrackDetails,dataSpotify] = await Promise.all([getTrackDetails(artistName,trackName),fetch(`https://api.spotify.com/v1/search?type=track&q=${trackName}&artist=${artistName}&decorate_restrictions=false&best_match=true&include_external=audio&limit=1&access_token=${spotifyAccessToken}`).then(res=>res.json())])
 
 
     const detailSection = document.createElement("section")
@@ -468,8 +488,6 @@ async function renderTrackDetails(){
 
 
     trackInfo.append(tracksByAuthor)
-
-
 }
 
 // Function to create generator to get fetched request in iteration
